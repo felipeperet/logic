@@ -8,17 +8,17 @@ open import Data.Product hiding (_,_)
 open import Function hiding (_∋_)
 
 -- Equality inversion lemmas.
-≡-=>-inv : ∀ {t1 t2 t1' t2'} -> (t1 ⊃ t2) ≡ (t1' ⊃ t2') -> t1 ≡ t1' × t2 ≡ t2'
+≡-=>-inv : ∀ {t1 t2 t1' t2'} → (t1 ⊃ t2) ≡ (t1' ⊃ t2') → t1 ≡ t1' × t2 ≡ t2'
 ≡-=>-inv refl = refl Data.Product., refl
 
-≡-∧-inv : ∀ {t1 t2 t1' t2'} -> (t1 ∧ t2) ≡ (t1' ∧ t2') -> t1 ≡ t1' × t2 ≡ t2'
+≡-∧-inv : ∀ {t1 t2 t1' t2'} → (t1 ∧ t2) ≡ (t1' ∧ t2') → t1 ≡ t1' × t2 ≡ t2'
 ≡-∧-inv refl = refl Data.Product., refl
 
-≡-∨-inv : ∀ {t1 t2 t1' t2'} -> (t1 ∨ t2) ≡ (t1' ∨ t2') -> t1 ≡ t1' × t2 ≡ t2'
+≡-∨-inv : ∀ {t1 t2 t1' t2'} → (t1 ∨ t2) ≡ (t1' ∨ t2') → t1 ≡ t1' × t2 ≡ t2'
 ≡-∨-inv refl = refl Data.Product., refl
 
 -- Equality is decidable for Form.
-_≟F_ : ∀ (t t' : Form) -> Dec (t ≡ t')
+_≟F_ : ∀ (t t' : Form) → Dec (t ≡ t')
 ⊤ ≟F ⊤ = yes refl
 ⊤ ≟F (t' ⊃ t'') = no (λ ())
 ⊤ ≟F (t' ∧ t'') = no (λ ())
@@ -55,29 +55,29 @@ _≟F_ : ∀ (t t' : Form) -> Dec (t ≡ t')
 ⊥' ≟F ⊥' = yes refl
 
 -- Defining permutation.
-data _~_ : Ctx -> Ctx -> Set where
+data _~_ : Ctx → Ctx → Set where
   Done  : ∅ ~ ∅
   Skip  : ∀ {t Γ Γ'} -> Γ ~ Γ' -> (Γ , t) ~ (Γ' , t)
   Swap  : ∀ {t t' Γ} -> (Γ , t , t') ~ (Γ , t' , t)
   Trans : ∀ {Γ Γ₁ Γ'} -> Γ ~ Γ₁ -> Γ₁ ~ Γ' -> Γ ~ Γ'
 
 -- Proving that permutation is an equivalence relation.
-~-refl : ∀ {Γ} -> Γ ~ Γ
+~-refl : ∀ {Γ} → Γ ~ Γ
 ~-refl {∅} = Done
 ~-refl {Γ , t} = Skip ~-refl
 
-~-sym : ∀ {Γ Γ'} ->  Γ ~ Γ' ->  Γ' ~ Γ
+~-sym : ∀ {Γ Γ'} →  Γ ~ Γ' →  Γ' ~ Γ
 ~-sym Done = Done
 ~-sym (Skip prf) = Skip (~-sym prf)
 ~-sym Swap = Swap
 ~-sym (Trans prf prf₁)
    = Trans (~-sym prf₁) (~-sym prf)
 
-~-trans : ∀ {Γ Γ₁ Γ'} ->  Γ ~ Γ₁ ->  Γ₁ ~ Γ' -> Γ ~ Γ'
+~-trans : ∀ {Γ Γ₁ Γ'} →  Γ ~ Γ₁ →  Γ₁ ~ Γ' → Γ ~ Γ'
 ~-trans p1 p2 = Trans p1 p2
 
 -- Proving that permutation preserves lookup.
-~-lookup : ∀ {Γ Γ' t} -> Γ ~ Γ' -> Γ ∋ t -> Γ' ∋ t
+~-lookup : ∀ {Γ Γ' t} → Γ ~ Γ' → Γ ∋ t → Γ' ∋ t
 ~-lookup (Skip perm) Z = Z
 ~-lookup (Skip perm) (S pl) = S ~-lookup perm pl
 ~-lookup Swap Z = S Z
