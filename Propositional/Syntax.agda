@@ -1,41 +1,41 @@
 module Propositional.Syntax where
 
-open import Data.List
 open import Data.Nat
-open import Data.Product
-open import Function
-open import Relation.Binary
-open import Relation.Binary.PropositionalEquality
-open import Relation.Unary hiding (Decidable)
-open import Relation.Nullary
 
--- definition of formula syntax
-
+-- Syntax of formulae in Propositional Logic.
 data Form : Set where
-  `⊥  : Form
-  _`⊃_ : Form → Form → Form
+  ⊤    : Form
+  _⊃_  : Form → Form → Form
+  _∧_  : Form → Form → Form
+  _∨_  : Form → Form → Form
+  ⊥'   : Form
 
--- definition of formula contexts
-
-Ctx : Set
-Ctx = List Form
-
--- definition of the formula size
-
+-- Defining the size of a formula.
 form-size : Form → ℕ
-form-size `⊥ = 0
-form-size (f `⊃ f') = 1 + form-size f ⊔ form-size f'
+form-size ⊤        = zero
+form-size (D ⊃ D₁) = (suc zero) + (form-size D) + (form-size D₁)
+form-size (D ∧ D₁) = (suc zero) + (form-size D) + (form-size D₁)
+form-size (D ∨ D₁) = (suc zero) + (form-size D) + (form-size D₁)
+form-size ⊥'       = zero
 
--- decidability test
+-- Defining context as a list of formulae.
+data Ctx : Set where
+  ∅    : Ctx
+  _,_  : Ctx → Form → Ctx
 
-`⊃-inv : ∀ {a a' b b' : Form} → (a `⊃ b) ≡ (a' `⊃ b') → a ≡ a' × b ≡ b'
-`⊃-inv refl = refl , refl
+-- Defining the size of a context.
+ctx-size : Ctx → ℕ
+ctx-size ∅       = zero
+ctx-size (G , x) = (ctx-size G) + (form-size x)
 
-≡-Form : Decidable {A = Form} _≡_
-≡-Form `⊥ `⊥ = yes refl
-≡-Form `⊥ (b `⊃ b₁) = no (λ ())
-≡-Form (a `⊃ a₁) `⊥ = no (λ ())
-≡-Form (a `⊃ a₁) (b `⊃ b₁) with ≡-Form a b | ≡-Form a₁ b₁
-...| yes refl | yes refl = yes refl
-...| no p     | _        = no (p ∘ proj₁ ∘ `⊃-inv)
-...| _        | no q     = no (q ∘ proj₂ ∘ `⊃-inv)
+-- Ctx membership proofs.
+data _∋_ : Ctx → Form → Set where
+  Z : ∀ {Γ A}    → Γ , A ∋ A
+  S_ : ∀ {Γ A B} → Γ ∋ A → Γ , B ∋ A
+
+-- Operators precedence.
+infix  4 _∋_
+infixl 5 _,_
+infixr 6 _⊃_
+infixr 7 _∧_
+infixr 7 _∨_
