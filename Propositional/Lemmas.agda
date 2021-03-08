@@ -57,9 +57,9 @@ _≟F_ : ∀ (t t' : Form) → Dec (t ≡ t')
 -- Defining permutation.
 data _~_ : Ctx → Ctx → Set where
   Done  : ∅ ~ ∅
-  Skip  : ∀ {t Γ Γ'} -> Γ ~ Γ' -> (Γ , t) ~ (Γ' , t)
-  Swap  : ∀ {t t' Γ} -> (Γ , t , t') ~ (Γ , t' , t)
-  Trans : ∀ {Γ Γ₁ Γ'} -> Γ ~ Γ₁ -> Γ₁ ~ Γ' -> Γ ~ Γ'
+  Skip  : ∀ {t Γ Γ'} → Γ ~ Γ' → (Γ , t) ~ (Γ' , t)
+  Swap  : ∀ {t t' Γ} → (Γ , t , t') ~ (Γ , t' , t)
+  Trans : ∀ {Γ Γ₁ Γ'} → Γ ~ Γ₁ → Γ₁ ~ Γ' → Γ ~ Γ'
 
 -- Proving that permutation is an equivalence relation.
 ~-refl : ∀ {Γ} → Γ ~ Γ
