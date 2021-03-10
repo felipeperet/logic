@@ -1,4 +1,4 @@
-module Propositional.Translation where
+module Propositional.Translation.NaturalToSequent where
 
 open import Propositional.Syntax
 open import Propositional.Sequent.LJ

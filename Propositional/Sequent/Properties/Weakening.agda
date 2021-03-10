@@ -1,7 +1,6 @@
 module Propositional.Sequent.Properties.Weakening where
 
 open import Propositional.Syntax
-open import Propositional.Lemmas
 open import Propositional.Sequent.LJ
 
 -- Proving that LJ system admits weakening.

@@ -3,7 +3,7 @@ module Propositional.Natural.Properties.Consistency where
 open import Propositional.Syntax
 open import Propositional.Natural.NJ
 open import Propositional.Sequent.LJ
-open import Propositional.Translation
+open import Propositional.Translation.NaturalToSequent
 open import Propositional.Sequent.Properties.Consistency
 
 open import Data.Nat
