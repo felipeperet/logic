@@ -40,6 +40,5 @@ open import Data.Maybe
 ⇒-cut (suc n) D (⊃R E)  = ⇒-cut n (⇒-wk D) (xch Swap E) >>= λ x → just (⊃R x)
 ⇒-cut (suc n) D (∨R₁ E) = ⇒-cut n D E >>= λ x → just (∨R₁ x)
 ⇒-cut (suc n) D (∨R₂ E) = ⇒-cut n D E >>= λ x → just (∨R₂ x)
-⇒-cut (suc n) ⊤R E = ⇒-cut n ⊤R E
 ⇒-cut (suc n) _ ⊤R = just ⊤R
 ⇒-cut (suc n) ⊥L _ = just ⊥L

@@ -10,46 +10,54 @@ data _⇒ₜ_ : Ctx → Form → Set where
   ax : ∀ {Γ A}
     → Γ , A ⇒ₜ A
 
-  ∧R : ∀ {Γ A B}
+  ∧⇒ₜ : ∀ {Γ A B G}
+    → Γ , A , B  ⇒ₜ G
+    → Γ , A ∧ B  ⇒ₜ G
+
+  ⇒ₜ∧ : ∀ {Γ A B}
     → Γ ⇒ₜ A
     → Γ ⇒ₜ B
     → Γ ⇒ₜ A ∧ B
 
-  ∧L₁ : ∀ {Γ A B C}
-    → Γ , A ∧ B , A ⇒ₜ C
-    → Γ , A ∧ B     ⇒ₜ C
+  ∨⇒ₜ : ∀ {Γ A B G}
+    → Γ , A     ⇒ₜ G
+    → Γ , B     ⇒ₜ G
+    → Γ , A ∨ B ⇒ₜ G
 
-  ∧L₂ : ∀ {Γ A B C}
-    → Γ , A ∧ B , B ⇒ₜ C
-    → Γ , A ∧ B     ⇒ₜ C
-
-  ⊃R : ∀ {Γ A B}
-    → Γ , A ⇒ₜ B
-    → Γ     ⇒ₜ A ⊃ B
-
-  ⊃L : ∀ {Γ A B C}
-    → Γ , A ⊃ B     ⇒ₜ A
-    → Γ , A ⊃ B , B ⇒ₜ C
-    → Γ , A ⊃ B     ⇒ₜ C
-
-  ∨R₁ : ∀ {Γ A B}
+  ⇒ₜ∨₁ : ∀ {Γ A B}
     → Γ ⇒ₜ A
     → Γ ⇒ₜ A ∨ B
 
-  ∨R₂ : ∀ {Γ A B}
+  ⇒ₜ∨₂ : ∀ {Γ A B}
     → Γ ⇒ₜ B
     → Γ ⇒ₜ A ∨ B
 
-  ∨L : ∀ {Γ A B C}
-    → Γ , A ∨ B , A ⇒ₜ C
-    → Γ , A ∨ B , B ⇒ₜ C
-    → Γ , A ∨ B     ⇒ₜ C
+  ⊃⇒ₜ¹ : ∀ {Γ A B G}
+    → Γ , A , B     ⇒ₜ G
+    → Γ , A ⊃ B , A ⇒ₜ G
 
-  ⊤R : ∀ {Γ}
+  ⊃⇒ₜ² : ∀ {Γ B D C G}
+    → Γ , C ⊃ (D ⊃ B) ⇒ₜ G
+    → Γ , (C ∧ D) ⊃ B ⇒ₜ G
+
+  ⊃⇒ₜ³ : ∀ {Γ B D C G}
+    → Γ , C ⊃ B , D ⊃ B ⇒ₜ G
+    → Γ , (C ∨ D) ⊃ B   ⇒ₜ G
+
+  ⊃⇒ₜ⁴ : ∀ {Γ B D C G}
+    → Γ , B           ⇒ₜ G
+    → Γ , D ⊃ B       ⇒ₜ C ⊃ D
+    → Γ , (C ⊃ D) ⊃ B ⇒ₜ G
+
+  ⇒ₜ⊃ : ∀ {Γ A B}
+    → Γ , A ⇒ₜ B
+    → Γ     ⇒ₜ A ⊃ B
+
+  ⇒ₜ⊤ : ∀ {Γ}
     → Γ ⇒ₜ ⊤
 
-  ⊥L : ∀ {Γ C}
-    → Γ , ⊥' ⇒ₜ C
+  ⊥⇒ₜ : ∀ {Γ G}
+    → Γ , ⊥' ⇒ₜ G
 
 -- Postulating the exchange structural rule.
 postulate

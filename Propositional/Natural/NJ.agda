@@ -2,8 +2,6 @@ module Propositional.Natural.NJ where
 
 open import Propositional.Syntax
 
-open import Data.Product hiding (_,_)
-
 -- Natural Deduction inference rules.
 data _⊢_ : Ctx → Form → Set where
 
