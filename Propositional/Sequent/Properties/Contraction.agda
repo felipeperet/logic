@@ -2,7 +2,6 @@ module Propositional.Sequent.Properties.Contraction where
 
 open import Propositional.Sequent.LJ
 open import Propositional.Syntax
-open import Propositional.Lemmas
 
 open import Data.Nat
 open import Data.Maybe

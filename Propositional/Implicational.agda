@@ -1,57 +1,49 @@
-module Propositional.Lemmas where
+module Propositional.Implicational where
 
-open import Propositional.Syntax
-
-open import Relation.Nullary
-open import Relation.Binary.PropositionalEquality
+open import Data.Nat
 open import Data.Product hiding (_,_)
+open import Relation.Binary.PropositionalEquality
+open import Relation.Nullary
 open import Function hiding (_∋_)
+
+-- In this module, we formalize the syntax
+-- implicational fragment of propositional logic.
+data Form : Set where
+  _⊃_ : Form → Form → Form
+  ⊥'  : Form
+
+-- Defining the size of a formula.
+form-size : Form → ℕ
+form-size (D ⊃ D₁) = (suc zero) + (form-size D) + (form-size D₁)
+form-size ⊥'       = zero
+
+-- Defining context as a list of formulae.
+data Ctx : Set where
+  ∅    : Ctx
+  _,_  : Ctx → Form → Ctx
+
+-- Defining the size of a context.
+ctx-size : Ctx → ℕ
+ctx-size ∅       = zero
+ctx-size (G , x) = (ctx-size G) + (form-size x)
+
+-- Context membership proofs.
+data _∋_ : Ctx → Form → Set where
+  Z  : ∀ {Γ A}    → Γ , A ∋ A
+  S_ : ∀ {Γ A B} → Γ ∋ A → Γ , B ∋ A
 
 -- Equality inversion lemmas.
 ≡-=>-inv : ∀ {t1 t2 t1' t2'} → (t1 ⊃ t2) ≡ (t1' ⊃ t2') → t1 ≡ t1' × t2 ≡ t2'
 ≡-=>-inv refl = refl Data.Product., refl
 
-≡-∧-inv : ∀ {t1 t2 t1' t2'} → (t1 ∧ t2) ≡ (t1' ∧ t2') → t1 ≡ t1' × t2 ≡ t2'
-≡-∧-inv refl = refl Data.Product., refl
-
-≡-∨-inv : ∀ {t1 t2 t1' t2'} → (t1 ∨ t2) ≡ (t1' ∨ t2') → t1 ≡ t1' × t2 ≡ t2'
-≡-∨-inv refl = refl Data.Product., refl
-
 -- Equality is decidable for Form.
 _≟F_ : ∀ (t t' : Form) → Dec (t ≡ t')
-⊤ ≟F ⊤ = yes refl
-⊤ ≟F (t' ⊃ t'') = no (λ ())
-⊤ ≟F (t' ∧ t'') = no (λ ())
-⊤ ≟F (t' ∨ t'') = no (λ ())
-⊤ ≟F ⊥' = no (λ ())
-(t ⊃ t₁) ≟F ⊤ = no (λ ())
 (t ⊃ t₁) ≟F (t' ⊃ t'') with t ≟F t' | t₁ ≟F t''
 ((t ⊃ t₁) ≟F (t' ⊃ t'')) | no ¬p | q = no (¬p ∘ proj₁ ∘ ≡-=>-inv)
 ((t ⊃ t₁) ≟F (t' ⊃ t'')) | yes p | no ¬p = no (¬p ∘ proj₂ ∘ ≡-=>-inv)
 ((t ⊃ t₁) ≟F (t' ⊃ t'')) | yes p | yes p₁ rewrite p | p₁ = yes refl
-(t ⊃ t₁) ≟F (t' ∧ t'') = no (λ ())
-(t ⊃ t₁) ≟F (t' ∨ t'') = no (λ ())
 (t ⊃ t₁) ≟F ⊥' = no (λ ())
-(t ∧ t₁) ≟F ⊤ = no (λ ())
-(t ∧ t₁) ≟F (t' ⊃ t'') = no (λ ())
-(t ∧ t₁) ≟F (t' ∧ t'') with t ≟F t' | t₁ ≟F t''
-((t ∧ t₁) ≟F (t' ∧ t'')) | no ¬p | q = no (¬p ∘ proj₁ ∘ ≡-∧-inv)
-((t ∧ t₁) ≟F (t' ∧ t'')) | yes p | no ¬p = no (¬p ∘ proj₂ ∘ ≡-∧-inv)
-((t ∧ t₁) ≟F (t' ∧ t'')) | yes p | yes p₁ rewrite p | p₁ = yes refl
-(t ∧ t₁) ≟F (t' ∨ t'') = no (λ ())
-(t ∧ t₁) ≟F ⊥' = no (λ ())
-(t ∨ t₁) ≟F ⊤ = no (λ ())
-(t ∨ t₁) ≟F (t' ⊃ t'') = no (λ ())
-(t ∨ t₁) ≟F (t' ∧ t'') = no (λ ())
-(t ∨ t₁) ≟F (t' ∨ t'') with t ≟F t' | t₁ ≟F t''
-((t ∨ t₁) ≟F (t' ∨ t'')) | no ¬p | q = no (¬p ∘ proj₁ ∘ ≡-∨-inv)
-((t ∨ t₁) ≟F (t' ∨ t'')) | yes p | no ¬p = no (¬p ∘ proj₂ ∘ ≡-∨-inv)
-((t ∨ t₁) ≟F (t' ∨ t'')) | yes p | yes p₁ rewrite p | p₁ = yes refl
-(t ∨ t₁) ≟F ⊥' = no (λ ())
-⊥' ≟F ⊤ = no (λ ())
 ⊥' ≟F (t' ⊃ t'') = no (λ ())
-⊥' ≟F (t' ∧ t'') = no (λ ())
-⊥' ≟F (t' ∨ t'') = no (λ ())
 ⊥' ≟F ⊥' = yes refl
 
 -- Defining permutation.
@@ -86,3 +78,8 @@ data _~_ : Ctx → Ctx → Set where
 ~-lookup (Swap {t} {t'}) (S_ {.(_ , t)} {_} {.t'} (S pl)) | no ¬p = S (S pl)
 ~-lookup (Swap {t} {t'}) (S_ {.(_ , t)} {_} {.t'} pl) | yes p rewrite p = Z
 ~-lookup (Trans perm perm₁) pl = ~-lookup perm₁ (~-lookup perm pl)
+
+-- Operators precedence.
+infix  4 _∋_
+infixl 5 _,_
+infixr 6 _⊃_

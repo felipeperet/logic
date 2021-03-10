@@ -1,7 +1,6 @@
 module Propositional.Sequent.Properties.Cut where
 
 open import Propositional.Syntax
-open import Propositional.Lemmas
 open import Propositional.Sequent.LJ
 open import Propositional.Sequent.Properties.Contraction
 open import Propositional.Sequent.Properties.Weakening

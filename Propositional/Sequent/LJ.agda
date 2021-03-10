@@ -1,7 +1,6 @@
 module Propositional.Sequent.LJ where
 
 open import Propositional.Syntax
-open import Propositional.Lemmas
 
 -- Inference rules for the LJ system.
 data _⇒_ : Ctx → Form → Set where

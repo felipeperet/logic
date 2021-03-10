@@ -1,7 +1,6 @@
 module Propositional.Translation where
 
 open import Propositional.Syntax
-open import Propositional.Lemmas
 open import Propositional.Sequent.LJ
 open import Propositional.Sequent.Properties.Cut
 open import Propositional.Sequent.Properties.Weakening
