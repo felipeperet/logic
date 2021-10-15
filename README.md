@@ -17,6 +17,6 @@ Up to now, he have:
   * Formalized inference rules for [Bi-directional Natural Deduction](https://github.com/felipeperet/logic/blob/master/Propositional/Natural/Bidirectional.agda).
   * Proved [soundness](https://github.com/felipeperet/logic/blob/master/Propositional/Natural/Properties/Soundness.agda) and [completeness](https://github.com/felipeperet/logic/blob/master/Propositional/Natural/Properties/Completeness.agda) properties for Bi-directional Natural Deduction.
   * Proved properties of Sequent Calculus such as [weakening](https://github.com/felipeperet/logic/blob/master/Propositional/Sequent/Properties/Weakening.agda), [contraction](https://github.com/felipeperet/logic/blob/master/Propositional/Sequent/Properties/Contraction.agda) and [cut](https://github.com/felipeperet/logic/blob/master/Propositional/Sequent/Properties/Cut.agda).
-  * Proved Natural Deduction [consistency](https://github.com/felipeperet/logic/blob/master/Propositional/Natural/Properties/Consistency.agda).
+  * Proved Natural Deduction's [consistency](https://github.com/felipeperet/logic/blob/master/Propositional/Natural/Properties/Consistency.agda).
 
 
