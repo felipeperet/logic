@@ -1,10 +1,10 @@
 module Propositional.Translation.NaturalToSequent where
 
 open import Propositional.Syntax
-open import Propositional.Sequent.LJ
-open import Propositional.Sequent.Properties.Cut
-open import Propositional.Sequent.Properties.Weakening
-open import Propositional.Natural.NJ
+open import Propositional.Systems.Sequent.LJ
+open import Propositional.Systems.Sequent.Properties.Cut
+open import Propositional.Systems.Sequent.Properties.Weakening
+open import Propositional.Systems.Natural.NJ
 
 open import Data.Nat
 open import Data.Maybe
@@ -29,4 +29,4 @@ open import Data.Maybe
   → ⊢-transl n D₁ >>= λ x₁
   → ⊢-transl n D₂ >>= λ x₂ → ⇒-cut n x (∨L (xch Swap (⇒-wk x₁)) (xch Swap (⇒-wk x₂)))
 ⊢-transl (suc n) T-intro = just ⊤R
-⊢-transl (suc n) ⊥-elim  = just  ⊥L
+⊢-transl (suc n) ⊥-elim  = just ⊥L
